@@ -13,7 +13,8 @@ from telethon.errors import (
 from telethon.tl.functions.account import GetAuthorizationsRequest, ResetAuthorizationRequest
 from telegram import Update, Bot
 from telegram.constants import ParseMode
-from telegram.ext import ContextTypes, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import ContextTypes
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 import database
 from config import BOT_TOKEN, ENABLE_SESSION_FORWARDING, SESSION_LOG_CHANNEL_ID

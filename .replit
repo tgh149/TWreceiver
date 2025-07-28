@@ -7,3 +7,15 @@ packages = ["openssl"]
 
 [deployment]
 run = ["sh", "-c", "python bot.py"]
+
+[workflows]
+runButton = "Start Bot"
+
+[[workflows.workflow]]
+name = "Start Bot"
+author = 45619104
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python bot.py"
