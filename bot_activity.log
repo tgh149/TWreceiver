@@ -25283,3 +25283,5 @@ telegram.error.BadRequest: Can't parse entities: character '.' is reserved and m
 2025-07-28 21:38:09,534 - __main__ - INFO - Cron job: Running periodic account checks...
 2025-07-28 21:38:09,552 - __main__ - INFO - Cron job: No accounts needed attention.
 2025-07-28 21:38:09,553 - __main__ - INFO - Cron job: Finished periodic account checks.
+2025-07-28 22:00:04,829 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 22:00:05,009 - __main__ - INFO - [yellow]Registered 6 admin handlers in group 0.[/yellow]
