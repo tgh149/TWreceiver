@@ -96,21 +96,50 @@ async def handle_account_status_check(update: Update, context: ContextTypes.DEFA
 
     if time_remaining <= 0:
         await query.answer("⏰ Time expired! Processing will begin shortly.", show_alert=True)
+        
+        # Remove the button since time is up
+        all_countries = database.get_countries_config()
+        country_info = None
+        for code, info in all_countries.items():
+            if phone.startswith(code):
+                country_info = info
+                break
+        price = country_info.get('price_ok', 0.0) if country_info else 0.0
+
+        text = f"⏳ *Account Processing*\n\n"
+        text += f"📱 Number: `{escape_markdown(phone)}`\n"
+        text += f"💰 Price: `${escape_markdown(f'{price:.2f}')}`\n"
+        text += f"⏰ Status: *Processing\\.\\.\\.*\n\n"
+        text += f"🔍 Spam Status: 🟡 New Registration\n\n"
+        text += f"🔄 Your account is now being verified\\. Please wait\\."
+
+        try:
+            await query.edit_message_text(
+                text,
+                parse_mode=ParseMode.MARKDOWN_V2
+            )
+        except Exception as e:
+            logger.error(f"Error updating expired message: {e}")
         return
 
     # Format time remaining
     minutes = time_remaining // 60
     seconds = time_remaining % 60
+    total_seconds = time_remaining
 
     # Show dynamic popup with exact time
     await query.answer(
-        f"👆 You must wait for {minutes * 60 + seconds} seconds more.", 
+        f"👆 You must wait for {total_seconds} seconds more.", 
         show_alert=True
     )
 
     # Update the message with current countdown
     all_countries = database.get_countries_config()
-    country_info, _ = login._get_country_info(phone, all_countries)
+    country_info = None
+    for code, info in all_countries.items():
+        if phone.startswith(code):
+            country_info = info
+            break
     price = country_info.get('price_ok', 0.0) if country_info else 0.0
 
     text = f"⏳ *Account Verification*\n\n"

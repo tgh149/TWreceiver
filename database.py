@@ -246,7 +246,7 @@ def get_account_time_remaining(job_id):
     """Get time remaining for a specific account"""
     account = fetch_one("""
         SELECT a.*, c.time as confirm_time,
-               (CAST((julianday(datetime(a.reg_time, '+' || COALESCE(c.time, 600) || ' seconds')) - julianday('now')) * 86400) AS INTEGER) as time_remaining
+               (CAST((julianday(datetime(a.reg_time, '+' || COALESCE(c.time, 600) || ' seconds')) - julianday('now')) * 86400 AS INTEGER)) as time_remaining
         FROM accounts a
         LEFT JOIN countries c ON a.phone_number LIKE c.code || '%'
         WHERE a.job_id = ?
