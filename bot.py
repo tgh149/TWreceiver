@@ -178,7 +178,7 @@ def main() -> None:
         CommandHandler("rules", commands.rules_command),
         CommandHandler("cancel", commands.cancel_operation),
         CommandHandler("reply", proxy_chat.reply_to_user),
-        CallbackQueryHandler(callbacks.on_callback_query),
+        CallbackQueryHandler(callbacks.handle_callback_query),
         MessageHandler(filters.TEXT & ~filters.COMMAND, commands.on_text_message),
     ]
     application.add_handlers(user_handlers, group=2)
