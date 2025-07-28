@@ -177,7 +177,10 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
     await query.answer()
     
     data = query.data
-    if data == "countries_rates":
+    
+    if data.startswith("check_account_status:"):
+        await handle_account_status_check(update, context)
+    elif data == "countries_rates":
         # Handle countries rates callback
         pass
     elif data == "rules":
@@ -190,11 +193,64 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
         # Handle withdrawal confirmation callbacks
         pass
 
+async def handle_account_status_check(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle account status check button"""
+    query = update.callback_query
+    job_id = query.data.split(':')[-1]
+    
+    account = database.get_account_time_remaining(job_id)
+    
+    if not account:
+        await query.answer("Account not found or already processed!", show_alert=True)
+        return
+    
+    time_remaining = account.get('time_remaining', 0)
+    phone = account['phone_number']
+    
+    if time_remaining <= 0:
+        await query.answer("⏰ Time expired! Processing will begin shortly.", show_alert=True)
+        return
+    
+    # Format time remaining
+    minutes = time_remaining // 60
+    seconds = time_remaining % 60
+    
+    # Show dynamic popup with exact time
+    await query.answer(
+        f"👆 You must wait for {minutes * 60 + seconds} seconds more.", 
+        show_alert=True
+    )
+    
+    # Update the message with current countdown
+    all_countries = database.get_countries_config()
+    country_info, _ = login._get_country_info(phone, all_countries)
+    price = country_info.get('price_ok', 0.0) if country_info else 0.0
+    
+    text = f"⏳ *Account Verification*\n\n"
+    text += f"📱 Number: `{escape_markdown(phone)}`\n"
+    text += f"💰 Price: `${escape_markdown(f'{price:.2f}')}`\n"
+    text += f"⏰ Remaining: *{minutes:02d}:{seconds:02d}*\n\n"
+    text += f"The bot will automatically verify your account\\."
+    
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("⏱️ Check Status", callback_data=f"check_account_status:{job_id}")]
+    ])
+    
+    try:
+        await query.edit_message_text(
+            text,
+            reply_markup=keyboard,
+            parse_mode=ParseMode.MARKDOWN_V2
+        )
+    except Exception as e:
+        logger.error(f"Failed to update countdown message: {e}")
+
 from telegram.ext import CallbackQueryHandler
 def get_callback_handlers():
     return [
         CallbackQueryHandler(handle_balance_callback, pattern="^my_balance$"),
         CallbackQueryHandler(handle_balance_callback, pattern="^refresh_balance$"),
         CallbackQueryHandler(handle_withdraw_start, pattern="^withdraw_start$"),
+        CallbackQueryHandler(handle_account_status_check, pattern="^check_account_status:"),
         CallbackQueryHandler(on_callback_query, pattern="^(countries_rates|rules|contact_support|confirm_withdrawal|cancel_withdrawal)$")
     ]

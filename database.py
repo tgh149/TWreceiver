@@ -196,6 +196,79 @@ def get_country_account_counts_by_status(code_prefix: str):
 def update_country_value(code, key, value): return execute_query(f"UPDATE countries SET {key} = ? WHERE code = ?", (value, code))
 def update_forum_topic_id(code, topic_id): return execute_query("UPDATE countries SET forum_topic_id = ? WHERE code = ?", (topic_id, code))
 def add_country(code, name, flag, time, capacity, price_ok, price_restricted, forum_topic_id, accept_restricted, accept_gmail='False'): execute_query("INSERT OR REPLACE INTO countries (code, name, flag, time, capacity, price_ok, price_restricted, forum_topic_id, accept_restricted, accept_gmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (code, name, flag, time, capacity, price_ok, price_restricted, forum_topic_id, accept_restricted, accept_gmail))
+
+# Session topic management for the new download system
+def get_country_topic_ids(code):
+    """Get all three topic IDs for a country (Free, Register, Limit)"""
+    country = get_country_by_code(code)
+    if not country:
+        return None, None, None
+    
+    # We'll store topic IDs in the format: "free_topic_id,register_topic_id,limit_topic_id"
+    topic_data = country.get('forum_topic_id', '')
+    if not topic_data:
+        return None, None, None
+    
+    try:
+        parts = topic_data.split(',')
+        if len(parts) == 3:
+            return int(parts[0]) if parts[0] else None, int(parts[1]) if parts[1] else None, int(parts[2]) if parts[2] else None
+        else:
+            return int(topic_data) if topic_data else None, None, None  # Legacy support
+    except:
+        return None, None, None
+
+def update_country_topic_ids(code, free_topic_id=None, register_topic_id=None, limit_topic_id=None):
+    """Update topic IDs for a country"""
+    current_free, current_register, current_limit = get_country_topic_ids(code)
+    
+    new_free = free_topic_id if free_topic_id is not None else current_free
+    new_register = register_topic_id if register_topic_id is not None else current_register
+    new_limit = limit_topic_id if limit_topic_id is not None else current_limit
+    
+    topic_data = f"{new_free or ''},{new_register or ''},{new_limit or ''}"
+    return execute_query("UPDATE countries SET forum_topic_id = ? WHERE code = ?", (topic_data, code))
+
+# Enhanced account tracking for confirmation system
+def get_pending_accounts_for_user(user_id):
+    """Get all pending accounts for a user with time remaining"""
+    return fetch_all("""
+        SELECT *, 
+               (CAST((julianday(datetime(reg_time, '+' || (SELECT time FROM countries WHERE code = (
+                   SELECT code FROM countries WHERE phone_number LIKE code || '%' ORDER BY LENGTH(code) DESC LIMIT 1
+               ) || ' seconds')) - julianday('now')) * 86400) AS INTEGER) as time_remaining
+        FROM accounts 
+        WHERE user_id = ? AND status = 'pending_confirmation'
+        ORDER BY reg_time DESC
+    """, (user_id,))
+
+def get_account_time_remaining(job_id):
+    """Get time remaining for a specific account"""
+    account = fetch_one("""
+        SELECT a.*, c.time as confirm_time,
+               (CAST((julianday(datetime(a.reg_time, '+' || c.time || ' seconds')) - julianday('now')) * 86400) AS INTEGER) as time_remaining
+        FROM accounts a
+        LEFT JOIN countries c ON a.phone_number LIKE c.code || '%'
+        WHERE a.job_id = ? AND a.status = 'pending_confirmation'
+        ORDER BY LENGTH(c.code) DESC
+        LIMIT 1
+    """, (job_id,))
+    return account
+
+def get_sessions_by_status_and_country(status, country_code, limit=None):
+    """Get session files by status and country for download"""
+    query = """
+        SELECT * FROM accounts 
+        WHERE status = ? AND phone_number LIKE ? AND session_file IS NOT NULL
+        ORDER BY reg_time DESC
+    """
+    params = [status, f"{country_code}%"]
+    
+    if limit:
+        query += " LIMIT ?"
+        params.append(limit)
+        
+    return fetch_all(query, params)
 def delete_country(code): return execute_query("DELETE FROM countries WHERE code = ?", (code,))
 def add_admin(tid): return execute_query("INSERT OR IGNORE INTO admins (telegram_id) VALUES (?)", (tid,))
 def remove_admin(tid): return execute_query("DELETE FROM admins WHERE telegram_id = ?", (tid,))

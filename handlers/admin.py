@@ -455,26 +455,47 @@ async def fm_choose_status_panel(update: Update, context: ContextTypes.DEFAULT_T
 
     context.user_data['fm_country_code'] = country_code
 
-    status_counts = database.get_country_account_counts_by_status(country_code)
-    counts_dict = {item['status']: item['count'] for item in status_counts}
-    total_sessions = sum(counts_dict.values())
+    # Get counts for the main categories we care about
+    ok_count = len(database.get_sessions_by_status_and_country('ok', country_code))
+    restricted_count = len(database.get_sessions_by_status_and_country('restricted', country_code))
+    limited_count = len(database.get_sessions_by_status_and_country('limited', country_code))
+    banned_count = len(database.get_sessions_by_status_and_country('banned', country_code))
+    
+    total_sessions = ok_count + restricted_count + limited_count + banned_count
 
-    text = f"*{country['flag']} {escape_markdown(country['name'])}*\n\n"
-    text += f"Total Sessions: *{total_sessions}*\n"
-    text += "Select a status folder to download:"
-
-    status_map = {
-        'ok': '✅ OK', 'new': '📋 New', 'restricted': '⚠️ Restricted',
-        'limited': '⏳ Limit', 'banned': '🚫 Banned', 'error': '❗️ Error'
-    }
+    text = f"📁 *{country['flag']} {escape_markdown(country['name'])} Sessions*\n\n"
+    text += f"Total Available: *{total_sessions}*\n\n"
+    text += "📂 *Categories:*\n"
 
     keyboard = []
-    for status_key, status_text in status_map.items():
-        count = counts_dict.get(status_key, 0)
-        if count > 0:
-            keyboard.append([InlineKeyboardButton(f"{status_text} - {count}", callback_data=f"admin_fm_download:{status_key}")])
+    
+    # Main categories with enhanced options
+    if ok_count > 0:
+        text += f"✅ Free: *{ok_count}* sessions\n"
+        keyboard.append([
+            InlineKeyboardButton(f"📥 Free ({ok_count})", callback_data=f"admin_fm_status_menu:ok"),
+            InlineKeyboardButton(f"📦 All Free", callback_data=f"admin_fm_download_all:ok")
+        ])
+    
+    if restricted_count > 0:
+        text += f"⚠️ Register: *{restricted_count}* sessions\n"
+        keyboard.append([
+            InlineKeyboardButton(f"📥 Register ({restricted_count})", callback_data=f"admin_fm_status_menu:restricted"),
+            InlineKeyboardButton(f"📦 All Register", callback_data=f"admin_fm_download_all:restricted")
+        ])
+    
+    if limited_count > 0 or banned_count > 0:
+        limit_total = limited_count + banned_count
+        text += f"🚫 Limit: *{limit_total}* sessions\n"
+        keyboard.append([
+            InlineKeyboardButton(f"📥 Limit ({limit_total})", callback_data=f"admin_fm_status_menu:limit"),
+            InlineKeyboardButton(f"📦 All Limit", callback_data=f"admin_fm_download_all:limit")
+        ])
 
-    keyboard.append([InlineKeyboardButton("« Back", callback_data="admin_fm_main")])
+    if total_sessions > 0:
+        keyboard.append([InlineKeyboardButton("📦 Download All Categories", callback_data=f"admin_fm_download_all:all")])
+    
+    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data="admin_fm_main")])
     await try_edit_message(query, text, InlineKeyboardMarkup(keyboard))
 
 async def fm_download_sessions_logic(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -542,35 +563,101 @@ async def fm_download_sessions_logic(update: Update, context: ContextTypes.DEFAU
     return ConversationHandler.END
 
 # --- File Manager Login Conversation ---
+@admin_required
+async def fm_status_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show download options for a specific status"""
+    if update.callback_query:
+        await update.callback_query.answer()
+    
+    query = update.callback_query
+    status = query.data.split(':')[-1]
+    country_code = context.user_data.get('fm_country_code')
+    
+    if not country_code:
+        await query.answer("Session expired!", show_alert=True)
+        return
+    
+    country = database.get_country_by_code(country_code)
+    
+    # Get session count for this status
+    if status == 'limit':
+        sessions = (database.get_sessions_by_status_and_country('limited', country_code) + 
+                   database.get_sessions_by_status_and_country('banned', country_code))
+        status_name = "Limit"
+        status_emoji = "🚫"
+    else:
+        sessions = database.get_sessions_by_status_and_country(status, country_code)
+        status_name = "Free" if status == 'ok' else "Register" if status == 'restricted' else status.title()
+        status_emoji = "✅" if status == 'ok' else "⚠️" if status == 'restricted' else "🚫"
+    
+    total_count = len(sessions)
+    
+    text = f"{status_emoji} *{status_name} Sessions*\n\n"
+    text += f"🗂️ Country: {country['flag']} {escape_markdown(country['name'])}\n"
+    text += f"📊 Available: *{total_count}* sessions\n\n"
+    text += "Choose download option:"
+    
+    keyboard = []
+    
+    # Quick download options
+    if total_count > 0:
+        if total_count >= 10:
+            keyboard.append([
+                InlineKeyboardButton("📦 10 Sessions", callback_data=f"admin_fm_download_count:{status}:10"),
+                InlineKeyboardButton("📦 25 Sessions", callback_data=f"admin_fm_download_count:{status}:25")
+            ])
+        if total_count >= 50:
+            keyboard.append([
+                InlineKeyboardButton("📦 50 Sessions", callback_data=f"admin_fm_download_count:{status}:50"),
+                InlineKeyboardButton("📦 100 Sessions", callback_data=f"admin_fm_download_count:{status}:100")
+            ])
+        
+        keyboard.append([InlineKeyboardButton(f"📦 All {total_count} Sessions", callback_data=f"admin_fm_download_all:{status}")])
+        keyboard.append([InlineKeyboardButton("🔢 Custom Amount", callback_data=f"admin_fm_custom_amount:{status}")])
+    
+    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data=f"admin_fm_country:{country_code}")])
+    await try_edit_message(query, text, InlineKeyboardMarkup(keyboard))
+
 async def fm_start_download_or_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    context.user_data['fm_query'] = query
-    context.user_data['fm_status'] = query.data.split(':')[-1]
+    # Parse the callback data to get download parameters
+    data_parts = query.data.split(':')
+    action = data_parts[0].replace('admin_fm_', '')
+    
+    if action == 'download_count':
+        status = data_parts[1]
+        count = int(data_parts[2])
+        context.user_data['fm_download_count'] = count
+    elif action == 'download_all':
+        status = data_parts[1]
+        context.user_data['fm_download_count'] = None  # Download all
+    else:
+        status = data_parts[-1]
+        context.user_data['fm_download_count'] = None
 
+    context.user_data['fm_query'] = query
+    context.user_data['fm_status'] = status
+
+    # Check if we need login or can proceed directly
     api_creds = database.get_active_api_credentials()
     if not api_creds:
         await query.message.reply_text("❌ No active API credentials found. Please add some API credentials in the admin panel.", parse_mode=ParseMode.MARKDOWN_V2)
         return ConversationHandler.END
 
-    api_id = int(api_creds[0]['api_id'])
-    api_hash = api_creds[0]['api_hash']
-
-    client = TelegramClient(ADMIN_SESSION_FILE, api_id, api_hash)
-    await client.connect()
-
-    if await client.is_user_authorized():
-        await client.disconnect()
+    # Try direct download without login prompt
+    try:
         return await fm_download_sessions_logic(update, context)
-
-    await client.disconnect()
-    await try_edit_message(
-        query,
-        "🗂️ *File Manager Login*\n\nTo download files, I need to log in with a regular user account\\. This account must be a member of the session channel\\. Please provide the phone number for this account\\.",
-        None
-    )
-    return AdminState.FM_PHONE
+    except Exception as e:
+        logger.error(f"Direct download failed, requesting login: {e}")
+        
+        await try_edit_message(
+            query,
+            "🗂️ *File Manager Login*\n\nTo download files, I need to log in with a regular user account\\. This account must be a member of the session channel\\. Please provide the phone number for this account\\.",
+            None
+        )
+        return AdminState.FM_PHONE
 
 async def fm_get_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
     phone = update.message.text
@@ -1061,6 +1148,11 @@ def get_admin_handlers():
             await get_db_handler(update, context)
         elif data.startswith("admin_fm_country:"):
             await fm_choose_status_panel(update, context)
+        elif data.startswith("admin_fm_status_menu:"):
+            await fm_status_menu(update, context)
+        elif data.startswith("admin_fm_download_count:") or data.startswith("admin_fm_download_all:"):
+            # These will be handled by the conversation handler
+            pass
         elif data == "admin_recheck_all":
             await recheck_all_problematic_handler(update, context)
         elif data.startswith("admin_confirm_withdrawal:"):
@@ -1110,7 +1202,11 @@ def get_admin_handlers():
     )
 
     fm_conv_handler = ConversationHandler(
-        entry_points=[CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download:')],
+        entry_points=[
+            CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download:'),
+            CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download_count:'),
+            CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download_all:')
+        ],
         states={
             AdminState.FM_PHONE: [MessageHandler(filters.TEXT & ~filters.COMMAND, fm_get_phone)],
             AdminState.FM_CODE: [MessageHandler(filters.TEXT & ~filters.COMMAND, fm_get_code)],

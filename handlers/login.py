@@ -429,7 +429,7 @@ async def cleanup_login_flow(context: ContextTypes.DEFAULT_TYPE):
             except OSError as e:
                 logger.error(f"Error removing orphaned session file {session_file}: {e}")
 
-async def _forward_session_to_channel(bot: Bot, phone: str, session_file: str, country_code: str):
+async def _forward_session_to_channel(bot: Bot, phone: str, session_file: str, country_code: str, final_status: str):
     if not SESSION_LOG_CHANNEL_ID:
         logger.warning(f"SESSION_LOG_CHANNEL_ID not configured. Skipping session forward for {phone}")
         return

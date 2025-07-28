@@ -14,7 +14,7 @@ def escape_markdown(text: str) -> str:
     """Helper function to escape telegram markdown v2 characters."""
     if not isinstance(text, str): text = str(text)
     escape_chars = r'_*[]()~`>#+-=|{}.!'
-    return re.sub(f'([{re.escape(escape_chars)}])', r'\\\1', text)
+    return re.sub(f'([{re.escape(escape_chars)}])', r'\\\1', text, )
 
 # --- Navigation Content Generators ---
 def get_start_menu_content(context: ContextTypes.DEFAULT_TYPE) -> tuple[str, InlineKeyboardMarkup]:
@@ -228,3 +228,66 @@ async def balance_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard.append([InlineKeyboardButton("🔄 Refresh", callback_data="refresh_balance")])
 
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.MARKDOWN)
+
+async def on_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handles all text messages from users."""
+    user_id = update.effective_user.id
+    username = update.effective_user.username
+    message_text = update.message.text
+
+    # Check if user is blocked
+    user, is_new_user = database.get_or_create_user(user_id, username)
+    if user['is_blocked']:
+        return
+
+    # Log the message for admin support
+    database.log_user_message(user_id, username, message_text)
+
+    # Handle withdrawal flow
+    if context.user_data.get('state') == "waiting_for_address":
+        await handle_withdrawal_address(update, context)
+        return
+
+    # Check if it's a phone number
+    phone_pattern = r'^\+\d{10,15}$'
+    if re.match(phone_pattern, message_text.strip()):
+        await login.handle_login(update, context)
+    else:
+        # Forward message to support
+        await proxy_chat.forward_to_admin(update, context)
+
+async def show_account_status_with_confirmation(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: int):
+    """Show account status with confirmation buttons for pending accounts"""
+    pending_accounts = database.get_pending_accounts_for_user(user_id)
+
+    if not pending_accounts:
+        return
+
+    for account in pending_accounts:
+        time_remaining = account.get('time_remaining', 0)
+
+        if time_remaining > 0:
+            phone = account['phone_number']
+            minutes = time_remaining // 60
+            seconds = time_remaining % 60
+
+            # Get country info for pricing
+            all_countries = database.get_countries_config()
+            country_info, _ = login._get_country_info(phone, all_countries)
+            price = country_info.get('price_ok', 0.0) if country_info else 0.0
+
+            text = f"⏳ *Account Verification*\n\n"
+            text += f"📱 Number: `{escape_markdown(phone)}`\n"
+            text += f"💰 Price: `${escape_markdown(f'{price:.2f}')}`\n"
+            text += f"⏰ Remaining: *{minutes:02d}:{seconds:02d}*\n\n"
+            text += f"The bot will automatically verify your account\\."
+
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("⏱️ Check Status", callback_data=f"check_account_status:{account['job_id']}")]
+            ])
+
+            await update.message.reply_text(
+                text,
+                reply_markup=keyboard,
+                parse_mode=ParseMode.MARKDOWN_V2
+            )
