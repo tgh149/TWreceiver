@@ -1,4 +1,4 @@
-import logging, asyncio, os, re, zipfile, json
+import logging, asyncio, os, re, zipfile, json, tempfile
 from enum import Enum, auto
 from functools import wraps
 from datetime import datetime, timedelta
@@ -640,7 +640,7 @@ async def fm_start_download_or_login(update: Update, context: ContextTypes.DEFAU
     context.user_data['fm_query'] = query
     context.user_data['fm_status'] = status
 
-    # Direct download from local filesystem without requiring login
+    # Direct download from local filesystem as ZIP file
     try:
         country_code = context.user_data.get('fm_country_code')
         status_to_fetch = context.user_data.get('fm_status')
@@ -656,7 +656,7 @@ async def fm_start_download_or_login(update: Update, context: ContextTypes.DEFAU
             return ConversationHandler.END
 
         await query.message.reply_text(
-            f"⏳ Fetching *{status_to_fetch.upper()}* sessions for *{escape_markdown(country['name'])}*\\.\\.\\. please wait\\.",
+            f"⏳ Preparing *{status_to_fetch.upper()}* sessions ZIP for *{escape_markdown(country['name'])}*\\.\\.\\. please wait\\.",
             parse_mode=ParseMode.MARKDOWN_V2
         )
 
@@ -683,32 +683,65 @@ async def fm_start_download_or_login(update: Update, context: ContextTypes.DEFAU
         if download_count and download_count > 0:
             accounts_to_find = accounts_to_find[:download_count]
 
-        # Send session files
-        sent_count = 0
-        for acc in accounts_to_find:
-            if acc.get('session_file') and os.path.exists(acc['session_file']):
-                try:
-                    with open(acc['session_file'], 'rb') as f:
-                        await context.bot.send_document(
-                            chat_id=query.from_user.id,
-                            document=f,
-                            filename=os.path.basename(acc['session_file'])
-                        )
-                    sent_count += 1
-                    await asyncio.sleep(0.1)  # Rate limiting
-                except Exception as e:
-                    logger.error(f"Failed to send session file {acc['session_file']}: {e}")
+        # Create ZIP file
+        import tempfile
+        temp_dir = tempfile.mkdtemp()
+        
+        # Status display names
+        status_names = {
+            'ok': 'Free',
+            'restricted': 'Register', 
+            'limit': 'Limit',
+            'all': 'All'
+        }
+        
+        status_display = status_names.get(status_to_fetch, status_to_fetch.title())
+        count_text = f"{len(accounts_to_find)}" if not download_count else f"{download_count}"
+        
+        zip_filename = f"{country['flag']}_{country['name'].replace(' ', '_')}_{status_display}_{count_text}_Sessions.zip"
+        zip_path = os.path.join(temp_dir, zip_filename)
 
-        if sent_count > 0:
-            await query.message.reply_text(f"✅ Sent *{sent_count}* session file\\(s\\) from local storage.", parse_mode=ParseMode.MARKDOWN_V2)
-        else:
-            await query.message.reply_text(f"ℹ️ Could not find any matching session files on the server.", parse_mode=ParseMode.MARKDOWN_V2)
+        try:
+            with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                added_count = 0
+                for acc in accounts_to_find:
+                    if acc.get('session_file') and os.path.exists(acc['session_file']):
+                        try:
+                            # Add file to ZIP with original filename
+                            zipf.write(acc['session_file'], os.path.basename(acc['session_file']))
+                            added_count += 1
+                        except Exception as e:
+                            logger.error(f"Failed to add session file to ZIP {acc['session_file']}: {e}")
+
+            if added_count > 0:
+                # Send ZIP file
+                with open(zip_path, 'rb') as zip_file:
+                    await context.bot.send_document(
+                        chat_id=query.from_user.id,
+                        document=zip_file,
+                        filename=zip_filename,
+                        caption=f"📦 *{status_display} Sessions ZIP*\n\n🌍 Country: {country['flag']} {escape_markdown(country['name'])}\n📊 Sessions: *{added_count}*\n📅 Generated: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`",
+                        parse_mode=ParseMode.MARKDOWN_V2
+                    )
+                
+                await query.message.reply_text(f"✅ Sent ZIP file with *{added_count}* session file\\(s\\)\\.", parse_mode=ParseMode.MARKDOWN_V2)
+            else:
+                await query.message.reply_text(f"ℹ️ Could not find any valid session files on the server.", parse_mode=ParseMode.MARKDOWN_V2)
+
+        finally:
+            # Cleanup temp files
+            try:
+                if os.path.exists(zip_path):
+                    os.remove(zip_path)
+                os.rmdir(temp_dir)
+            except Exception as e:
+                logger.error(f"Failed to cleanup temp files: {e}")
 
         context.user_data.clear()
         return ConversationHandler.END
 
     except Exception as e:
-        logger.error(f"Failed to download sessions: {e}", exc_info=True)
+        logger.error(f"Failed to create session ZIP: {e}", exc_info=True)
         await query.message.reply_text(f"❌ An error occurred: {escape_markdown(str(e))}", parse_mode=ParseMode.MARKDOWN_V2)
         context.user_data.clear()
         return ConversationHandler.END

@@ -1,5 +1,3 @@
-# START OF FILE handlers/login.py
-
 import os
 import logging
 import asyncio
@@ -15,7 +13,7 @@ from telethon.errors import (
 from telethon.tl.functions.account import GetAuthorizationsRequest, ResetAuthorizationRequest
 from telegram import Update, Bot
 from telegram.constants import ParseMode
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, InlineKeyboardMarkup, InlineKeyboardButton
 
 import database
 from config import BOT_TOKEN, ENABLE_SESSION_FORWARDING, SESSION_LOG_CHANNEL_ID
@@ -360,10 +358,10 @@ async def handle_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if not code.isdigit() or len(code) < 4 or len(code) > 6:
                 await update.message.reply_text("⚠️ Invalid code format. Please enter the 5-digit code you received.")
                 return
-            
+
             await client.sign_in(phone=phone, code=code, phone_code_hash=phone_code_hash.phone_code_hash)
             logger.info(f"Telethon login successful for user `{user_id}` with phone `{phone}`.")
-            
+
             # Set 2FA if enabled and password is provided
             if context.bot_data.get('enable_2fa') == 'True' and context.bot_data.get('two_step_password'):
                 try:
@@ -390,18 +388,33 @@ async def handle_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             logger.info(f"Scheduled initial check for `{job_id}` in {conf_time_s} seconds.")
 
+            # Get country price for display
+            price = country_info.get('price_ok', 0.0) if country_info else 0.0
             conf_time_min_str = escape_markdown(f"{conf_time_s / 60:.1f}")
-            await update.message.reply_text(
+
+            # Show verification message with button
+            verification_text = (
                 f"✅ Account `{escape_markdown(phone)}` accepted for verification\\.\n\n"
-                f"It will be checked in approximately *{conf_time_min_str} minutes*\\. "
-                "You will receive a notification with the final result\\.",
-                parse_mode=ParseMode.MARKDOWN_V2
+                f"💰 Price: `${escape_markdown(f'{price:.2f}')}`\n"
+                f"⏰ Time remaining: *{conf_time_min_str} minutes*\n\n"
+                f"🔍 Spam Status: 🟡 New Registration\n\n"
+                f"👆 The bot will automatically verify your account\\."
+            )
+
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("✅ Account Verification", callback_data=f"check_account_status:{job_id}")]
+            ])
+
+            await update.message.reply_text(
+                verification_text,
+                parse_mode=ParseMode.MARKDOWN_V2,
+                reply_markup=keyboard
             )
             state['status'] = 'success'
 
         except Exception as e:
             logger.error(f"Sign-in error for {user_id} ({phone}): {e}", exc_info=True)
-            
+
             if isinstance(e, PhoneCodeInvalidError):
                 await update.message.reply_text("⚠️ Incorrect code\\. Please check and try again or /cancel\\.")
                 await context.bot.edit_message_text(
@@ -523,4 +536,3 @@ async def _forward_session_to_channel(bot: Bot, phone: str, session_file: str, c
                 logger.info(f"Fallback: Forwarded session for {phone} to general chat in {SESSION_LOG_CHANNEL_ID}")
             except Exception as fallback_e:
                 logger.error(f"Failed to forward session file even to general chat: {fallback_e}")
-# END OF FILE handlers/login.py
