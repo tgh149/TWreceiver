@@ -24745,3 +24745,383 @@ telegram.error.BadRequest: Can't parse entities: character '.' is reserved and m
 2025-07-28 20:27:34,029 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
 2025-07-28 20:27:34,041 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
 2025-07-28 20:27:34,071 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 21:09:17,621 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 21:09:17,810 - __main__ - INFO - [yellow]Registered 5 admin handlers in group 0.[/yellow]
+2025-07-28 21:09:17,812 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 21:09:17,813 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 21:09:18,386 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 21:09:18,394 - database - INFO - Database initialized/checked successfully.
+2025-07-28 21:09:18,396 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 21:09:18,399 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 21:09:18,405 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 21:09:18,760 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 21:09:19,120 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 21:09:19,140 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 21:09:19,186 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 21:09:24,446 - telegram.ext.Updater - ERROR - Error while getting Updates: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-07-28 21:09:24,447 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 742, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 736, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 387, in polling_action_cb
+    raise exc
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 376, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 618, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 4177, in get_updates
+    await self._post(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 381, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-07-28 21:09:30,373 - telegram.ext.Updater - ERROR - Error while getting Updates: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-07-28 21:09:30,375 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 742, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 736, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 387, in polling_action_cb
+    raise exc
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 376, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 618, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 4177, in get_updates
+    await self._post(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 381, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-07-28 21:09:37,539 - telegram.ext.Updater - ERROR - Error while getting Updates: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-07-28 21:09:37,540 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 742, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 736, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 387, in polling_action_cb
+    raise exc
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_updater.py", line 376, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 618, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 4177, in get_updates
+    await self._post(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 381, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-07-28 21:09:45,047 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
+2025-07-28 21:09:47,779 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 21:09:47,880 - __main__ - INFO - [yellow]Registered 5 admin handlers in group 0.[/yellow]
+2025-07-28 21:09:47,881 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 21:09:47,882 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 21:09:48,445 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 21:09:48,447 - database - INFO - Database initialized/checked successfully.
+2025-07-28 21:09:48,448 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 21:09:48,452 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 21:09:48,457 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 21:09:48,811 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 21:09:49,169 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 21:09:49,182 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 21:09:49,225 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 21:10:59,277 - handlers.helpers - INFO - Created new topic '👤 龙 \[TW\] (6158106622)' with ID 569 for user 6158106622
+2025-07-28 21:11:04,071 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:13,223 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:17,620 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:19,278 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:20,922 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:22,599 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:27,415 - handlers.helpers - WARNING - MarkdownV2 parsing failed for mirror message. Re-sending as plain text. Error: Can't parse entities: character '(' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:11:34,510 - handlers.helpers - ERROR - An unexpected error occurred while mirroring message to topic 569: Flood control exceeded. Retry in 24 seconds
+2025-07-28 21:11:36,447 - handlers.helpers - ERROR - An unexpected error occurred while mirroring message to topic 569: Flood control exceeded. Retry in 22 seconds
+2025-07-28 21:11:37,171 - handlers.helpers - ERROR - An unexpected error occurred while mirroring message to topic 569: Flood control exceeded. Retry in 21 seconds
+2025-07-28 21:11:38,724 - handlers.helpers - ERROR - An unexpected error occurred while mirroring message to topic 569: Flood control exceeded. Retry in 20 seconds
+2025-07-28 21:11:39,448 - handlers.helpers - ERROR - An unexpected error occurred while mirroring message to topic 569: Flood control exceeded. Retry in 19 seconds
+2025-07-28 21:11:54,494 - handlers.admin - ERROR - Error editing message for cb admin_dashboard: Message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message. Text: 🎯 *TWFOCUS Management Dashboard*
+
+📈 *System Overview:*
+• Total Users: `1`
+• Active Accounts: `4`
+• API Credentials: `1`
+• Proxy Pool: `0`
+• Unread Messages: `0`
+
+💰 *Financial Summary:*
+• Total Withdrawn: `$0\.00`
+• Withdrawal Requests: `0`
+
+🔧 *System Status:* All systems operational
+2025-07-28 21:12:18,788 - handlers.admin - ERROR - Direct download failed, requesting login: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:14:03,293 - handlers.admin - WARNING - No route for admin callback: admin_fm_custom_amount:ok
+2025-07-28 21:14:49,279 - __main__ - INFO - Cron job: Running periodic account checks...
+2025-07-28 21:14:49,305 - __main__ - INFO - Cron job: No accounts needed attention.
+2025-07-28 21:14:49,307 - __main__ - INFO - Cron job: Finished periodic account checks.
+2025-07-28 21:14:51,921 - telethon.client.users - WARNING - Telegram is having internal issues AuthRestartError: Restart the authorization process (caused by SendCodeRequest)
+2025-07-28 21:15:15,795 - database - INFO - Database initialized/checked successfully.
+2025-07-28 21:15:20,465 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_application.py", line 1264, in process_update
+    await coroutine
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_handlers/conversationhandler.py", line 857, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_handlers/basehandler.py", line 157, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/handlers/admin.py", line 667, in fm_get_phone
+    await update.message.reply_text("❌ No active API credentials found. Please add some API credentials in the admin panel.", parse_mode=ParseMode.MARKDOWN_V2)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_message.py", line 1584, in reply_text
+    return await self.get_bot().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 2820, in send_message
+    return await super().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 1015, in send_message
+    return await self._send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 581, in _send_message
+    result = await super()._send_message(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 735, in _send_message
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 379, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:15:21,697 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959972502815`.
+2025-07-28 21:15:22,063 - handlers.login - WARNING - No API credentials in rotation pool, using default
+2025-07-28 21:15:35,528 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_application.py", line 1264, in process_update
+    await coroutine
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_handlers/conversationhandler.py", line 857, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_handlers/basehandler.py", line 157, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/handlers/admin.py", line 667, in fm_get_phone
+    await update.message.reply_text("❌ No active API credentials found. Please add some API credentials in the admin panel.", parse_mode=ParseMode.MARKDOWN_V2)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_message.py", line 1584, in reply_text
+    return await self.get_bot().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 2820, in send_message
+    return await super().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 1015, in send_message
+    return await self._send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 581, in _send_message
+    result = await super()._send_message(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 735, in _send_message
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 379, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:16:42,070 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
+2025-07-28 21:16:42,126 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-167' coro=<UpdateMethods._update_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/updates.py:452> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:16:42,129 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-168' coro=<UpdateMethods._keepalive_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/updates.py:486> wait_for=<Future pending cb=[shield.<locals>._outer_done_callback() at /nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/tasks.py:922, Task.task_wakeup()]>>
+2025-07-28 21:16:42,132 - telethon.client.updates - ERROR - Fatal error handling updates (this is a bug in Telethon v1.34.0, please report it)
+Traceback (most recent call last):
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/updates.py", line 452, in _update_loop
+    updates = await asyncio.wait_for(self._updates_queue.get(), deadline_delay)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 160, in get
+    getter.cancel()  # Just in case getter is not done yet.
+    ^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2025-07-28 21:16:42,351 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-165' coro=<MTProtoSender._send_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/mtprotosender.py:464> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:16:42,353 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-166' coro=<MTProtoSender._recv_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/mtprotosender.py:507> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:16:42,356 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-163' coro=<Connection._send_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/connection/connection.py:316> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:16:42,358 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-164' coro=<Connection._recv_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/connection/connection.py:335> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:16:42,360 - telethon.network.mtprotosender - ERROR - Unhandled error while receiving data
+Traceback (most recent call last):
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/mtprotosender.py", line 507, in _recv_loop
+    body = await self._connection.recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/connection/connection.py", line 302, in recv
+    result, err = await self._recv_queue.get()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 160, in get
+    getter.cancel()  # Just in case getter is not done yet.
+    ^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2025-07-28 21:16:42,610 - telethon.network.connection.connection - ERROR - Unexpected exception in the send loop
+Traceback (most recent call last):
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/connection/connection.py", line 316, in _send_loop
+    self._send(await self._send_queue.get())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 160, in get
+    getter.cancel()  # Just in case getter is not done yet.
+    ^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2025-07-28 21:16:45,879 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 21:16:45,949 - __main__ - INFO - [yellow]Registered 5 admin handlers in group 0.[/yellow]
+2025-07-28 21:16:45,951 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 21:16:45,952 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 21:16:46,511 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 21:16:46,515 - database - INFO - Database initialized/checked successfully.
+2025-07-28 21:16:46,517 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 21:16:46,599 - __main__ - INFO - [green]Granted admin privileges to initial admin ID: 6158106622[/green]
+2025-07-28 21:16:46,632 - __main__ - INFO - [green]Added default API credential to rotation pool.[/green]
+2025-07-28 21:16:46,634 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 21:16:46,986 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 21:16:47,340 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 21:16:47,355 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 21:16:47,379 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 21:16:51,257 - handlers.helpers - INFO - Created new topic '👤 龙 \[TW\] (6158106622)' with ID 589 for user 6158106622
+2025-07-28 21:16:59,196 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959972502815`.
+2025-07-28 21:16:59,587 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 21:17:43,892 - handlers.login - ERROR - Sign-in error for 6158106622 (+959972502815): The phone code entered was invalid (caused by SignInRequest)
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/login.py", line 358, in handle_login
+    await client.sign_in(phone=phone, code=code, phone_code_hash=phone_code_hash.phone_code_hash)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/auth.py", line 357, in sign_in
+    result = await self(request)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/users.py", line 87, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.PhoneCodeInvalidError: The phone code entered was invalid (caused by SignInRequest)
+2025-07-28 21:17:47,548 - handlers.login - INFO - Removed orphaned session file on cancel: sessions/Myanmar/new/+959972502815 (6158106622).session
+2025-07-28 21:17:51,363 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959788446955`.
+2025-07-28 21:17:51,756 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 21:21:47,441 - __main__ - INFO - Cron job: Running periodic account checks...
+2025-07-28 21:21:47,457 - __main__ - INFO - Cron job: No accounts needed attention.
+2025-07-28 21:21:47,458 - __main__ - INFO - Cron job: Finished periodic account checks.
