@@ -24732,3 +24732,16 @@ Traceback (most recent call last):
     raise exception
 telegram.error.BadRequest: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
 2025-07-29 02:34:16,696 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
+2025-07-28 20:27:32,645 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 20:27:32,715 - __main__ - INFO - [yellow]Registered 5 admin handlers in group 0.[/yellow]
+2025-07-28 20:27:32,717 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 20:27:32,718 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 20:27:33,295 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 20:27:33,298 - database - INFO - Database initialized/checked successfully.
+2025-07-28 20:27:33,299 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 20:27:33,301 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 20:27:33,306 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 20:27:33,664 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 20:27:34,029 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 20:27:34,041 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 20:27:34,071 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
