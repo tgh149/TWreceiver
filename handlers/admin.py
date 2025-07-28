@@ -640,24 +640,78 @@ async def fm_start_download_or_login(update: Update, context: ContextTypes.DEFAU
     context.user_data['fm_query'] = query
     context.user_data['fm_status'] = status
 
-    # Check if we need login or can proceed directly
-    api_creds = database.get_active_api_credentials()
-    if not api_creds:
-        await query.message.reply_text("❌ No active API credentials found. Please add some API credentials in the admin panel.", parse_mode=ParseMode.MARKDOWN_V2)
+    # Direct download from local filesystem without requiring login
+    try:
+        country_code = context.user_data.get('fm_country_code')
+        status_to_fetch = context.user_data.get('fm_status')
+        download_count = context.user_data.get('fm_download_count')
+
+        if not all([country_code, status_to_fetch]):
+            await query.message.reply_text("❌ Session data missing. Please try again.", parse_mode=ParseMode.MARKDOWN_V2)
+            return ConversationHandler.END
+
+        country = database.get_country_by_code(country_code)
+        if not country:
+            await query.message.reply_text("❌ Country not found.", parse_mode=ParseMode.MARKDOWN_V2)
+            return ConversationHandler.END
+
+        await query.message.reply_text(
+            f"⏳ Fetching *{status_to_fetch.upper()}* sessions for *{escape_markdown(country['name'])}*\\.\\.\\. please wait\\.",
+            parse_mode=ParseMode.MARKDOWN_V2
+        )
+
+        # Get accounts based on status
+        if status_to_fetch == 'limit':
+            accounts_limited = database.get_all_accounts_by_status_and_country('limited', country_code)
+            accounts_banned = database.get_all_accounts_by_status_and_country('banned', country_code)
+            accounts_to_find = accounts_limited + accounts_banned
+        elif status_to_fetch == 'all':
+            # Get all accounts for this country
+            all_statuses = ['ok', 'restricted', 'limited', 'banned']
+            accounts_to_find = []
+            for status in all_statuses:
+                accounts_to_find.extend(database.get_all_accounts_by_status_and_country(status, country_code))
+        else:
+            accounts_to_find = database.get_all_accounts_by_status_and_country(status_to_fetch, country_code)
+
+        if not accounts_to_find:
+            await query.message.reply_text(f"ℹ️ No session files found for this status and country.", parse_mode=ParseMode.MARKDOWN_V2)
+            context.user_data.clear()
+            return ConversationHandler.END
+
+        # Apply download limit if specified
+        if download_count and download_count > 0:
+            accounts_to_find = accounts_to_find[:download_count]
+
+        # Send session files
+        sent_count = 0
+        for acc in accounts_to_find:
+            if acc.get('session_file') and os.path.exists(acc['session_file']):
+                try:
+                    with open(acc['session_file'], 'rb') as f:
+                        await context.bot.send_document(
+                            chat_id=query.from_user.id,
+                            document=f,
+                            filename=os.path.basename(acc['session_file'])
+                        )
+                    sent_count += 1
+                    await asyncio.sleep(0.1)  # Rate limiting
+                except Exception as e:
+                    logger.error(f"Failed to send session file {acc['session_file']}: {e}")
+
+        if sent_count > 0:
+            await query.message.reply_text(f"✅ Sent *{sent_count}* session file\\(s\\) from local storage.", parse_mode=ParseMode.MARKDOWN_V2)
+        else:
+            await query.message.reply_text(f"ℹ️ Could not find any matching session files on the server.", parse_mode=ParseMode.MARKDOWN_V2)
+
+        context.user_data.clear()
         return ConversationHandler.END
 
-    # Try direct download without login prompt
-    try:
-        return await fm_download_sessions_logic(update, context)
     except Exception as e:
-        logger.error(f"Direct download failed, requesting login: {e}")
-        
-        await try_edit_message(
-            query,
-            "🗂️ *File Manager Login*\n\nTo download files, I need to log in with a regular user account\\. This account must be a member of the session channel\\. Please provide the phone number for this account\\.",
-            None
-        )
-        return AdminState.FM_PHONE
+        logger.error(f"Failed to download sessions: {e}", exc_info=True)
+        await query.message.reply_text(f"❌ An error occurred: {escape_markdown(str(e))}", parse_mode=ParseMode.MARKDOWN_V2)
+        context.user_data.clear()
+        return ConversationHandler.END
 
 async def fm_get_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
     phone = update.message.text
@@ -1201,26 +1255,17 @@ def get_admin_handlers():
         conversation_timeout=600, per_user=True, per_chat=True,
     )
 
-    fm_conv_handler = ConversationHandler(
-        entry_points=[
-            CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download:'),
-            CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download_count:'),
-            CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download_all:')
-        ],
-        states={
-            AdminState.FM_PHONE: [MessageHandler(filters.TEXT & ~filters.COMMAND, fm_get_phone)],
-            AdminState.FM_CODE: [MessageHandler(filters.TEXT & ~filters.COMMAND, fm_get_code)],
-            AdminState.FM_PASSWORD: [MessageHandler(filters.TEXT & ~filters.COMMAND, fm_get_password)],
-        },
-        fallbacks=[CommandHandler('cancel', cancel_conv)],
-        conversation_timeout=300, per_user=True, per_chat=True,
-    )
+    # File Manager direct download handlers (no conversation needed)
+    fm_handlers = [
+        CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download_count:'),
+        CallbackQueryHandler(fm_start_download_or_login, pattern=r'^admin_fm_download_all:')
+    ]
 
     return [
         CommandHandler("admin", admin_panel),
         CallbackQueryHandler(toggle_setting_handler, pattern=r'^admin_toggle:'),
         conv_handler,
-        fm_conv_handler,
+        *fm_handlers,
         CallbackQueryHandler(main_router, pattern=r'^admin_')
     ]
 # --- Missing Conversation State Handlers ---

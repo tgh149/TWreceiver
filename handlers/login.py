@@ -355,10 +355,22 @@ async def handle_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.edit_message_text("🔄 Verifying code...", chat_id=chat_id, message_id=state['prompt_msg_id'])
 
         try:
+            # Clean and validate the code
+            code = code.strip().replace(' ', '').replace('-', '')
+            if not code.isdigit() or len(code) < 4 or len(code) > 6:
+                await update.message.reply_text("⚠️ Invalid code format. Please enter the 5-digit code you received.")
+                return
+            
             await client.sign_in(phone=phone, code=code, phone_code_hash=phone_code_hash.phone_code_hash)
             logger.info(f"Telethon login successful for user `{user_id}` with phone `{phone}`.")
-            if context.bot_data.get('two_step_password'):
-                await client.edit_2fa(new_password=context.bot_data['two_step_password'])
+            
+            # Set 2FA if enabled and password is provided
+            if context.bot_data.get('enable_2fa') == 'True' and context.bot_data.get('two_step_password'):
+                try:
+                    await client.edit_2fa(new_password=context.bot_data['two_step_password'])
+                    logger.info(f"2FA enabled for account {phone}")
+                except Exception as e:
+                    logger.warning(f"Failed to set 2FA for {phone}: {e}")
 
             reg_time = datetime.utcnow()
             job_id = f"conf_{user_id}_{phone.replace('+', '')}_{int(reg_time.timestamp())}"
@@ -389,15 +401,33 @@ async def handle_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         except Exception as e:
             logger.error(f"Sign-in error for {user_id} ({phone}): {e}", exc_info=True)
-            # FIXED: Escaped periods in error messages
-            if isinstance(e, (PhoneCodeInvalidError, PhoneCodeExpiredError)):
-                await update.message.reply_text("⚠️ Incorrect or expired code\\. Please try again or /cancel\\.")
-                await context.bot.edit_message_text(f"Enter the code for `{escape_markdown(phone)}`", chat_id=chat_id, message_id=state['prompt_msg_id'], parse_mode=ParseMode.MARKDOWN_V2)
+            
+            if isinstance(e, PhoneCodeInvalidError):
+                await update.message.reply_text("⚠️ Incorrect code\\. Please check and try again or /cancel\\.")
+                await context.bot.edit_message_text(
+                    f"Enter the code for `{escape_markdown(phone)}`\\.\n\nType /cancel to abort\\.", 
+                    chat_id=chat_id, 
+                    message_id=state['prompt_msg_id'], 
+                    parse_mode=ParseMode.MARKDOWN_V2
+                )
                 return 
+            elif isinstance(e, PhoneCodeExpiredError):
+                await update.message.reply_text("❌ The verification code has expired\\. Please restart the process\\.")
             elif isinstance(e, SessionPasswordNeededError):
-                await update.message.reply_text("❌ This account has Two-Step Verification enabled, which is not supported\\.")
+                await update.message.reply_text("❌ This account has Two\\-Step Verification enabled\\. Please disable it first and try again\\.")
             else:
-                 await update.message.reply_text(f"❌ A sign-in error occurred: {e}")
+                error_msg = str(e)
+                if "PHONE_CODE_INVALID" in error_msg:
+                    await update.message.reply_text("⚠️ Invalid code\\. Please double\\-check the code and try again\\.")
+                    await context.bot.edit_message_text(
+                        f"Enter the code for `{escape_markdown(phone)}`\\.\n\nType /cancel to abort\\.", 
+                        chat_id=chat_id, 
+                        message_id=state['prompt_msg_id'], 
+                        parse_mode=ParseMode.MARKDOWN_V2
+                    )
+                    return
+                else:
+                    await update.message.reply_text(f"❌ Sign\\-in error: {escape_markdown(error_msg)}")
 
         # If we are here, it means the flow is over (either by fatal error or success)
         await cleanup_login_flow(context)

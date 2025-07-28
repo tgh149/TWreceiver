@@ -6,10 +6,58 @@ import re
 from telegram import Update, Message
 from telegram.ext import ContextTypes
 from telegram.constants import ParseMode
-from telegram.error import BadRequest  # Import BadRequest
+from telegram.error import BadRequest
 from config import SESSION_LOG_CHANNEL_ID, ENABLE_SESSION_FORWARDING
 
 logger = logging.getLogger(__name__)
+
+def escape_markdown(text: str) -> str:
+    """Helper function to escape telegram markdown v2 characters."""
+    if not isinstance(text, str):
+        text = str(text)
+    escape_chars = r'_*[]()~`>#+-=|{}.!'
+    return re.sub(f'([{re.escape(escape_chars)}])', r'\\\1', text)
+
+async def reply_and_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, **kwargs):
+    """Send a reply and mirror to channel if configured."""
+    try:
+        message = await update.message.reply_text(text, **kwargs)
+        
+        # Mirror to channel if configured
+        if ENABLE_SESSION_FORWARDING and SESSION_LOG_CHANNEL_ID:
+            try:
+                await context.bot.send_message(
+                    chat_id=SESSION_LOG_CHANNEL_ID,
+                    text=f"📤 *Bot Response to @{escape_markdown(update.effective_user.username or str(update.effective_user.id))}*\n\n{text}",
+                    parse_mode=ParseMode.MARKDOWN_V2
+                )
+            except Exception as e:
+                logger.error(f"Failed to mirror message to channel: {e}")
+        
+        return message
+    except Exception as e:
+        logger.error(f"Failed to send reply: {e}")
+        # Fallback without formatting
+        try:
+            return await update.message.reply_text(text.replace('*', '').replace('`', '').replace('_', '').replace('\\', ''))
+        except Exception as fallback_e:
+            logger.error(f"Fallback reply also failed: {fallback_e}")
+            return None
+
+async def safe_edit_message(message: Message, text: str, **kwargs):
+    """Safely edit a message with error handling."""
+    try:
+        return await message.edit_text(text, **kwargs)
+    except BadRequest as e:
+        if "Message is not modified" in str(e):
+            return message  # Message content is the same
+        logger.error(f"Failed to edit message: {e}")
+        return None
+    except Exception as e:
+        logger.error(f"Unexpected error editing message: {e}")
+        return None
+
+# END OF FILE handlers/helpers.py
 
 def escape_markdown(text: str) -> str:
     """Helper function to escape telegram markdown v2 characters."""
