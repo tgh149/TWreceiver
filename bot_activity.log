@@ -25285,3 +25285,117 @@ telegram.error.BadRequest: Can't parse entities: character '.' is reserved and m
 2025-07-28 21:38:09,553 - __main__ - INFO - Cron job: Finished periodic account checks.
 2025-07-28 22:00:04,829 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
 2025-07-28 22:00:05,009 - __main__ - INFO - [yellow]Registered 6 admin handlers in group 0.[/yellow]
+2025-07-28 22:01:41,127 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 22:01:41,224 - __main__ - INFO - [yellow]Registered 6 admin handlers in group 0.[/yellow]
+2025-07-28 22:01:41,234 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 22:01:41,236 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 22:01:41,812 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 22:01:41,815 - database - INFO - Database initialized/checked successfully.
+2025-07-28 22:01:41,817 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 22:01:41,820 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 22:01:41,827 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 22:01:42,346 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 22:01:42,700 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 22:01:42,723 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 22:01:42,792 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 22:01:53,904 - handlers.helpers - INFO - Created new topic '👤 龙 \[TW\] (6158106622)' with ID 602 for user 6158106622
+2025-07-28 22:04:25,248 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959675998658`.
+2025-07-28 22:04:26,064 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 22:04:44,781 - handlers.login - INFO - Telethon login successful for user `6158106622` with phone `+959675998658`.
+2025-07-28 22:04:44,847 - handlers.login - INFO - Account `+959675998658` added to DB with job_id `conf_6158106622_959675998658_1753740284`.
+2025-07-28 22:04:44,888 - handlers.login - INFO - Scheduled initial check for `conf_6158106622_959675998658_1753740284` in 60 seconds.
+2025-07-28 22:04:47,451 - handlers.callbacks - ERROR - Error in callback handler: near ")": syntax error
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/callbacks.py", line 29, in handle_callback_query
+    await handle_account_status_check(update, context)
+  File "/home/runner/workspace/handlers/callbacks.py", line 88, in handle_account_status_check
+    account = database.get_account_time_remaining(job_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 247, in get_account_time_remaining
+    account = fetch_one("""
+              ^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 46, in fetch_one
+    result = conn.execute(query, params).fetchone()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near ")": syntax error
+2025-07-28 22:04:49,401 - handlers.callbacks - ERROR - Error in callback handler: near ")": syntax error
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/callbacks.py", line 29, in handle_callback_query
+    await handle_account_status_check(update, context)
+  File "/home/runner/workspace/handlers/callbacks.py", line 88, in handle_account_status_check
+    account = database.get_account_time_remaining(job_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 247, in get_account_time_remaining
+    account = fetch_one("""
+              ^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 46, in fetch_one
+    result = conn.execute(query, params).fetchone()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near ")": syntax error
+2025-07-28 22:04:58,394 - handlers.callbacks - ERROR - Error in callback handler: near ")": syntax error
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/callbacks.py", line 29, in handle_callback_query
+    await handle_account_status_check(update, context)
+  File "/home/runner/workspace/handlers/callbacks.py", line 88, in handle_account_status_check
+    account = database.get_account_time_remaining(job_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 247, in get_account_time_remaining
+    account = fetch_one("""
+              ^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 46, in fetch_one
+    result = conn.execute(query, params).fetchone()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near ")": syntax error
+2025-07-28 22:05:00,749 - handlers.callbacks - ERROR - Error in callback handler: near ")": syntax error
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/callbacks.py", line 29, in handle_callback_query
+    await handle_account_status_check(update, context)
+  File "/home/runner/workspace/handlers/callbacks.py", line 88, in handle_account_status_check
+    account = database.get_account_time_remaining(job_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 247, in get_account_time_remaining
+    account = fetch_one("""
+              ^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 46, in fetch_one
+    result = conn.execute(query, params).fetchone()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near ")": syntax error
+2025-07-28 22:05:12,076 - handlers.callbacks - ERROR - Error in callback handler: near ")": syntax error
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/callbacks.py", line 29, in handle_callback_query
+    await handle_account_status_check(update, context)
+  File "/home/runner/workspace/handlers/callbacks.py", line 88, in handle_account_status_check
+    account = database.get_account_time_remaining(job_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 247, in get_account_time_remaining
+    account = fetch_one("""
+              ^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 46, in fetch_one
+    result = conn.execute(query, params).fetchone()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near ")": syntax error
+2025-07-28 22:05:17,115 - handlers.callbacks - ERROR - Error in callback handler: near ")": syntax error
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/callbacks.py", line 29, in handle_callback_query
+    await handle_account_status_check(update, context)
+  File "/home/runner/workspace/handlers/callbacks.py", line 88, in handle_account_status_check
+    account = database.get_account_time_remaining(job_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 247, in get_account_time_remaining
+    account = fetch_one("""
+              ^^^^^^^^^^^^^
+  File "/home/runner/workspace/database.py", line 46, in fetch_one
+    result = conn.execute(query, params).fetchone()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near ")": syntax error
+2025-07-28 22:05:44,939 - handlers.login - INFO - Job conf_6158106622_959675998658_1753740284 (Initial Check): Running for +959675998658
+2025-07-28 22:05:44,963 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 22:05:45,417 - handlers.login - INFO - Performing spambot check for +959675998658.
+2025-07-28 22:05:45,757 - handlers.login - INFO - SpamBot response for +959675998658: Good news, no limits are currently applied to your account. You’re free as a bird!
+2025-07-28 22:05:45,760 - handlers.login - INFO - Moved session from sessions/Myanmar/new/+959675998658 (6158106622).session to sessions/Myanmar/ok/+959675998658 (6158106622).session
+2025-07-28 22:05:47,613 - handlers.login - INFO - Forwarded session for +959675998658 to channel -1002528192959 (Topic: 599)
+2025-07-28 22:05:47,627 - handlers.login - ERROR - Job conf_6158106622_959675998658_1753740284 (Initial Check): SQLite error on disconnect (ignoring): disk I/O error
+2025-07-28 22:06:42,789 - __main__ - INFO - Cron job: Running periodic account checks...
+2025-07-28 22:06:42,831 - __main__ - INFO - Cron job: No accounts needed attention.
+2025-07-28 22:06:42,833 - __main__ - INFO - Cron job: Finished periodic account checks.
+2025-07-28 22:06:51,735 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
