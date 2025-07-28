@@ -25125,3 +25125,161 @@ telethon.errors.rpcerrorlist.PhoneCodeInvalidError: The phone code entered was i
 2025-07-28 21:21:47,441 - __main__ - INFO - Cron job: Running periodic account checks...
 2025-07-28 21:21:47,457 - __main__ - INFO - Cron job: No accounts needed attention.
 2025-07-28 21:21:47,458 - __main__ - INFO - Cron job: Finished periodic account checks.
+2025-07-28 21:26:47,433 - __main__ - INFO - Cron job: Running periodic account checks...
+2025-07-28 21:26:47,454 - __main__ - INFO - Cron job: No accounts needed attention.
+2025-07-28 21:26:47,455 - __main__ - INFO - Cron job: Finished periodic account checks.
+2025-07-28 21:27:56,435 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
+2025-07-28 21:27:56,469 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-62' coro=<UpdateMethods._update_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/updates.py:452> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:27:56,472 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-63' coro=<UpdateMethods._keepalive_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/updates.py:486> wait_for=<Future pending cb=[shield.<locals>._outer_done_callback() at /nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/tasks.py:922, Task.task_wakeup()]>>
+2025-07-28 21:27:56,474 - telethon.client.updates - ERROR - Fatal error handling updates (this is a bug in Telethon v1.34.0, please report it)
+Traceback (most recent call last):
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/client/updates.py", line 452, in _update_loop
+    updates = await asyncio.wait_for(self._updates_queue.get(), deadline_delay)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/queues.py", line 160, in get
+    getter.cancel()  # Just in case getter is not done yet.
+    ^^^^^^^^^^^^^^^
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/nix/store/vnvdzw4182wb2ifzi0cczhv80yfnpx1q-python3-3.12.11/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2025-07-28 21:27:56,708 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-60' coro=<MTProtoSender._send_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/mtprotosender.py:464> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:27:56,712 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-61' coro=<MTProtoSender._recv_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/mtprotosender.py:507> wait_for=<Future cancelled>>
+2025-07-28 21:27:56,716 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-58' coro=<Connection._send_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/connection/connection.py:316> wait_for=<Future cancelled>>
+2025-07-28 21:27:56,719 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-59' coro=<Connection._recv_loop() running at /home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telethon/network/connection/connection.py:335> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-07-28 21:28:08,065 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 21:28:08,145 - __main__ - INFO - [yellow]Registered 6 admin handlers in group 0.[/yellow]
+2025-07-28 21:28:08,146 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 21:28:08,148 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 21:28:08,735 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 21:28:08,737 - database - INFO - Database initialized/checked successfully.
+2025-07-28 21:28:08,738 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 21:28:08,740 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 21:28:08,743 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 21:28:09,099 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 21:28:09,457 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 21:28:09,474 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 21:28:09,521 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 21:29:43,291 - handlers.helpers - INFO - Created new topic '👤 龙 \[TW\] (6158106622)' with ID 596 for user 6158106622
+2025-07-28 21:30:11,181 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959972502815`.
+2025-07-28 21:30:11,977 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 21:30:55,413 - handlers.login - INFO - Telethon login successful for user `6158106622` with phone `+959972502815`.
+2025-07-28 21:30:55,473 - handlers.login - INFO - Account `+959972502815` added to DB with job_id `conf_6158106622_959972502815_1753738255`.
+2025-07-28 21:30:55,513 - handlers.login - INFO - Scheduled initial check for `conf_6158106622_959972502815_1753738255` in 60 seconds.
+2025-07-28 21:31:55,586 - handlers.login - INFO - Job conf_6158106622_959972502815_1753738255 (Initial Check): Running for +959972502815
+2025-07-28 21:31:55,616 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 21:31:56,068 - handlers.login - INFO - Performing spambot check for +959972502815.
+2025-07-28 21:31:56,473 - handlers.login - INFO - SpamBot response for +959972502815: Good news, no limits are currently applied to your account. You’re free as a bird!
+2025-07-28 21:31:56,477 - handlers.login - INFO - Moved session from sessions/Myanmar/new/+959972502815 (6158106622).session to sessions/Myanmar/ok/+959972502815 (6158106622).session
+2025-07-28 21:31:57,950 - handlers.login - INFO - Created new topic '🇲🇲 Myanmar' with ID 599 for country code +95
+2025-07-28 21:31:59,062 - handlers.login - INFO - Forwarded session for +959972502815 to channel -1002528192959 (Topic: 599)
+2025-07-28 21:31:59,092 - handlers.login - ERROR - Job conf_6158106622_959972502815_1753738255 (Initial Check): SQLite error on disconnect (ignoring): disk I/O error
+2025-07-28 21:32:17,520 - handlers.admin - ERROR - Failed to download sessions: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/admin.py", line 703, in fm_start_download_or_login
+    await query.message.reply_text(f"✅ Sent *{sent_count}* session file\\(s\\) from local storage.", parse_mode=ParseMode.MARKDOWN_V2)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_message.py", line 1584, in reply_text
+    return await self.get_bot().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 2820, in send_message
+    return await super().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 1015, in send_message
+    return await self._send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 581, in _send_message
+    result = await super()._send_message(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 735, in _send_message
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 379, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:33:09,581 - __main__ - INFO - Cron job: Running periodic account checks...
+2025-07-28 21:33:09,601 - __main__ - INFO - Cron job: No accounts needed attention.
+2025-07-28 21:33:09,602 - __main__ - INFO - Cron job: Finished periodic account checks.
+2025-07-28 21:33:11,106 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959788446955`.
+2025-07-28 21:33:11,934 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 21:33:23,214 - handlers.login - INFO - Telethon login successful for user `6158106622` with phone `+959788446955`.
+2025-07-28 21:33:23,244 - handlers.login - INFO - Account `+959788446955` added to DB with job_id `conf_6158106622_959788446955_1753738403`.
+2025-07-28 21:33:23,264 - handlers.login - INFO - Scheduled initial check for `conf_6158106622_959788446955_1753738403` in 60 seconds.
+2025-07-28 21:34:23,330 - handlers.login - INFO - Job conf_6158106622_959788446955_1753738403 (Initial Check): Running for +959788446955
+2025-07-28 21:34:23,354 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 21:34:23,808 - handlers.login - INFO - Performing spambot check for +959788446955.
+2025-07-28 21:34:24,170 - handlers.login - INFO - SpamBot response for +959788446955: Good news, no limits are currently applied to your account. You’re free as a bird!
+2025-07-28 21:34:24,185 - handlers.login - INFO - Moved session from sessions/Myanmar/new/+959788446955 (6158106622).session to sessions/Myanmar/ok/+959788446955 (6158106622).session
+2025-07-28 21:34:26,515 - handlers.login - INFO - Forwarded session for +959788446955 to channel -1002528192959 (Topic: 599)
+2025-07-28 21:34:26,531 - handlers.login - ERROR - Job conf_6158106622_959788446955_1753738403 (Initial Check): SQLite error on disconnect (ignoring): disk I/O error
+2025-07-28 21:34:51,241 - handlers.admin - ERROR - Failed to download sessions: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+Traceback (most recent call last):
+  File "/home/runner/workspace/handlers/admin.py", line 703, in fm_start_download_or_login
+    await query.message.reply_text(f"✅ Sent *{sent_count}* session file\\(s\\) from local storage.", parse_mode=ParseMode.MARKDOWN_V2)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_message.py", line 1584, in reply_text
+    return await self.get_bot().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 2820, in send_message
+    return await super().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 541, in decorator
+    result = await func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 1015, in send_message
+    return await self._send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 581, in _send_message
+    result = await super()._send_message(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 735, in _send_message
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 629, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/ext/_extbot.py", line 347, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/_bot.py", line 657, in _do_post
+    return await request.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 200, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/telegram/request/_baserequest.py", line 379, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Can't parse entities: character '.' is reserved and must be escaped with the preceding '\'
+2025-07-28 21:38:09,534 - __main__ - INFO - Cron job: Running periodic account checks...
+2025-07-28 21:38:09,552 - __main__ - INFO - Cron job: No accounts needed attention.
+2025-07-28 21:38:09,553 - __main__ - INFO - Cron job: Finished periodic account checks.
