@@ -25399,3 +25399,47 @@ sqlite3.OperationalError: near ")": syntax error
 2025-07-28 22:06:42,831 - __main__ - INFO - Cron job: No accounts needed attention.
 2025-07-28 22:06:42,833 - __main__ - INFO - Cron job: Finished periodic account checks.
 2025-07-28 22:06:51,735 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
+2025-07-28 22:13:21,729 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 22:13:21,843 - __main__ - INFO - [yellow]Registered 6 admin handlers in group 0.[/yellow]
+2025-07-28 22:13:21,845 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 22:13:21,847 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 22:13:22,415 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 22:13:22,418 - database - INFO - Database initialized/checked successfully.
+2025-07-28 22:13:22,420 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 22:13:22,423 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 22:13:22,430 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 22:13:22,784 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 22:13:23,141 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 22:13:23,155 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 22:13:23,243 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 22:14:04,669 - handlers.helpers - INFO - Created new topic '👤 龙 \[TW\] (6158106622)' with ID 608 for user 6158106622
+2025-07-28 22:14:08,944 - handlers.login - INFO - User @Tgh149 (`6158106622`) started login for `+959681084765`.
+2025-07-28 22:14:09,406 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 22:14:26,871 - handlers.login - INFO - Telethon login successful for user `6158106622` with phone `+959681084765`.
+2025-07-28 22:14:26,972 - handlers.login - INFO - Account `+959681084765` added to DB with job_id `conf_6158106622_959681084765_1753740866`.
+2025-07-28 22:14:27,011 - handlers.login - INFO - Scheduled initial check for `conf_6158106622_959681084765_1753740866` in 60 seconds.
+2025-07-28 22:15:25,538 - __main__ - INFO - [yellow]APScheduler shut down.[/yellow]
+2025-07-28 22:15:38,505 - __main__ - INFO - [bold cyan]Bot starting...[/bold cyan]
+2025-07-28 22:15:38,581 - __main__ - INFO - [yellow]Registered 6 admin handlers in group 0.[/yellow]
+2025-07-28 22:15:38,583 - __main__ - INFO - [yellow]Registered 9 user handlers in group 2.[/yellow]
+2025-07-28 22:15:38,594 - __main__ - INFO - [bold green]Bot is ready and polling for updates...[/bold green]
+2025-07-28 22:15:39,175 - __main__ - INFO - [bold blue]Running post-initialization tasks...[/bold blue]
+2025-07-28 22:15:39,177 - database - INFO - Database initialized/checked successfully.
+2025-07-28 22:15:39,178 - __main__ - INFO - [green]Database schema checked/initialized (WAL mode enabled).[/green]
+2025-07-28 22:15:39,185 - __main__ - INFO - [green]Checked admin privileges for initial admin ID: 6158106622[/green]
+2025-07-28 22:15:39,202 - __main__ - INFO - [green]Loaded dynamic settings and country configs into bot context.[/green]
+2025-07-28 22:15:39,554 - __main__ - INFO - [green]Default user commands have been set.[/green]
+2025-07-28 22:15:39,909 - __main__ - INFO - [green]Admin-specific commands have been set for 1 admins.[/green]
+2025-07-28 22:15:39,939 - __main__ - INFO - [green]Persistent APScheduler started.[/green]
+2025-07-28 22:15:40,032 - __main__ - INFO - [green]Added recurring job for all account maintenance.[/green]
+2025-07-28 22:15:40,078 - handlers.login - INFO - Job conf_6158106622_959681084765_1753740866 (Initial Check): Running for +959681084765
+2025-07-28 22:15:40,123 - handlers.login - INFO - Using rotated API credential ID: 25707049
+2025-07-28 22:15:40,583 - handlers.login - INFO - Performing spambot check for +959681084765.
+2025-07-28 22:15:40,936 - handlers.login - INFO - SpamBot response for +959681084765: Good news, no limits are currently applied to your account. You’re free as a bird!
+2025-07-28 22:15:40,946 - handlers.login - INFO - Moved session from sessions/Myanmar/new/+959681084765 (6158106622).session to sessions/Myanmar/ok/+959681084765 (6158106622).session
+2025-07-28 22:15:42,860 - handlers.login - INFO - Forwarded session for +959681084765 to channel -1002528192959 (Topic: 599)
+2025-07-28 22:15:42,875 - handlers.login - ERROR - Job conf_6158106622_959681084765_1753740866 (Initial Check): SQLite error on disconnect (ignoring): disk I/O error
+2025-07-28 22:16:19,560 - handlers.helpers - INFO - Created new topic '👤 龙 \[TW\] (6158106622)' with ID 612 for user 6158106622
+2025-07-28 22:16:27,354 - handlers.admin - ERROR - Error editing message for cb admin_fm_main: Message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message. Text: 🗂️ *File Manager*
+
+Select a country to download sessions from\.
